@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
+#include <string.h>
 #include "ftlang.h"
 #include "y.tab.h"
 void yyerror(char *);
@@ -12,11 +13,14 @@ void yyerror(char *);
 [a-z]               {yylval.sIndex = *yytext - 'a'; return VARIABLE;}
 0                   {yylval.iValue = atoi(yytext); return INTEGER;}
 [1-9][0-9]*         {yylval.iValue = atoi(yytext); return INTEGER;}
+
 [-()<>=+*/;{}.]     {return *yytext;}
 
-"int"			return INT;
+"int"			return TYPE_INT;
+"char"          return TYPE_CHAR;
 
 "return"        return RETURN;
+"struct"        return STRUCT;
              
 "#"             return COMMENT; 
 ">="            return GE;
@@ -27,6 +31,9 @@ void yyerror(char *);
 "if"            return IF;
 "else"          return ELSE;
 "print"         return PRINT;
+
+
+[a-zA-Z][a-zA-Z0-9_]*       {strcpy(yylval.c,yytext);return IDENT;}
 
 [ \t\n]+        ;  /* ignore whitespace */
 

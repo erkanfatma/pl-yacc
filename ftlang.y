@@ -2,6 +2,7 @@
     #include <stdio.h>
     #include <stdlib.h>
     #include <stdarg.h>
+    #include <string.h>
     #include <ctype.h>
     #include "ftlang.h"
     #include "y.tab.h"
@@ -18,15 +19,17 @@
 
 %union {
     int iValue;                 
-    char sIndex;             
-    nodeType *nPtr;             
+    char sIndex; 
+    char c[30];            
+    nodeType *nPtr;     
+    struct symtab *symp;        
 };
 
 %token <iValue> INTEGER
 %token <sIndex> VARIABLE
 %token WHILE IF PRINT 
-%token CHAR INT
-%token COMMENT RETURN 
+%token TYPE_CHAR TYPE_INT IDENT
+%token COMMENT RETURN STRUCT
 
 %nonassoc IFX
 %nonassoc ELSE
@@ -37,8 +40,8 @@
 %nonassoc UMINUS
 
 %type <nPtr> stmt expr stmt_list
-%type <iValue> types
-%type <iValue> INT
+%type <iValue> TYPE_INT
+%type <sIndex> TYPE_CHAR
 
 %%
 
@@ -55,7 +58,7 @@ function:
         ;
 
 function_definition: 
-        types args scope_statements
+        types IDENT args scope_statements
         ;
 
 args: 
@@ -69,11 +72,12 @@ var_def_list:
         ;
 
 var_def:
-        types
+        types IDENT
         ;
 
 types: 
-          INT                            
+          TYPE_INT    
+        | TYPE_CHAR                        
         ;
 
 scope_statements:

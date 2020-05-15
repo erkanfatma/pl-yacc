@@ -50,17 +50,19 @@ extern int yydebug;
     WHILE = 260,
     IF = 261,
     PRINT = 262,
-    CHAR = 263,
-    INT = 264,
-    COMMENT = 265,
-    RETURN = 266,
-    IFX = 267,
-    ELSE = 268,
-    GE = 269,
-    LE = 270,
-    EQ = 271,
-    NE = 272,
-    UMINUS = 273
+    TYPE_CHAR = 263,
+    TYPE_INT = 264,
+    IDENT = 265,
+    COMMENT = 266,
+    RETURN = 267,
+    STRUCT = 268,
+    IFX = 269,
+    ELSE = 270,
+    GE = 271,
+    LE = 272,
+    EQ = 273,
+    NE = 274,
+    UMINUS = 275
   };
 #endif
 /* Tokens.  */
@@ -69,17 +71,19 @@ extern int yydebug;
 #define WHILE 260
 #define IF 261
 #define PRINT 262
-#define CHAR 263
-#define INT 264
-#define COMMENT 265
-#define RETURN 266
-#define IFX 267
-#define ELSE 268
-#define GE 269
-#define LE 270
-#define EQ 271
-#define NE 272
-#define UMINUS 273
+#define TYPE_CHAR 263
+#define TYPE_INT 264
+#define IDENT 265
+#define COMMENT 266
+#define RETURN 267
+#define STRUCT 268
+#define IFX 269
+#define ELSE 270
+#define GE 271
+#define LE 272
+#define EQ 273
+#define NE 274
+#define UMINUS 275
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -89,10 +93,12 @@ union YYSTYPE
 #line 20 "ftlang.y" /* yacc.c:1909  */
 
     int iValue;                 
-    char sIndex;             
-    nodeType *nPtr;             
+    char sIndex; 
+    char c[30];            
+    nodeType *nPtr;     
+    struct symtab *symp;        
 
-#line 96 "y.tab.h" /* yacc.c:1909  */
+#line 102 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
