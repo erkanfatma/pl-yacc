@@ -1,10 +1,10 @@
+#Executing
 
-ftlang: ftlang.l
-	lex ftlang.l
-	gcc -o ftlang lex.yy.c -ll
+lex:
+	lex ftlang.l 
 
-clean:
-	rm ftlang lex.yy.c
+yacc:
+    yacc -d ftlang.y 
 
-test:
-	./ftlang < test.ft
+   gcc lex.yy.c y.tab.c 
+   ./a.out
