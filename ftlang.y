@@ -74,7 +74,7 @@ var_def_list:
 var_def:
         types IDENT
         ;
-
+        
 types: 
           TYPE_INT    
         | TYPE_CHAR                        

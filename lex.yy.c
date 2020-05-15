@@ -700,7 +700,7 @@ YY_DECL
 		}
 
 	{
-#line 11 "ftlang.l"
+#line 12 "ftlang.l"
 
 
 #line 707 "lex.yy.c"
@@ -762,108 +762,108 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 13 "ftlang.l"
+#line 14 "ftlang.l"
 {yylval.sIndex = *yytext - 'a'; return VARIABLE;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 14 "ftlang.l"
+#line 15 "ftlang.l"
 {yylval.iValue = atoi(yytext); return INTEGER;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 15 "ftlang.l"
+#line 16 "ftlang.l"
 {yylval.iValue = atoi(yytext); return INTEGER;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 17 "ftlang.l"
+#line 18 "ftlang.l"
 {return *yytext;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 19 "ftlang.l"
+#line 20 "ftlang.l"
 return TYPE_INT;
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 20 "ftlang.l"
+#line 21 "ftlang.l"
 return TYPE_CHAR;
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 22 "ftlang.l"
+#line 23 "ftlang.l"
 return RETURN;
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 23 "ftlang.l"
+#line 24 "ftlang.l"
 return STRUCT;
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 25 "ftlang.l"
+#line 26 "ftlang.l"
 return COMMENT; 
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 26 "ftlang.l"
+#line 27 "ftlang.l"
 return GE;
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 27 "ftlang.l"
+#line 28 "ftlang.l"
 return LE;
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 28 "ftlang.l"
+#line 29 "ftlang.l"
 return EQ;
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 29 "ftlang.l"
+#line 30 "ftlang.l"
 return NE;
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 30 "ftlang.l"
+#line 31 "ftlang.l"
 return WHILE;
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 31 "ftlang.l"
+#line 32 "ftlang.l"
 return IF;
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 32 "ftlang.l"
+#line 33 "ftlang.l"
 return ELSE;
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 33 "ftlang.l"
+#line 34 "ftlang.l"
 return PRINT;
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 36 "ftlang.l"
+#line 37 "ftlang.l"
 {strcpy(yylval.c,yytext);return IDENT;}
 	YY_BREAK
 case 19:
 /* rule 19 can match eol */
 YY_RULE_SETUP
-#line 38 "ftlang.l"
+#line 39 "ftlang.l"
 ;  /* ignore whitespace */
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 40 "ftlang.l"
+#line 41 "ftlang.l"
 yyerror("Unknown character");
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 42 "ftlang.l"
+#line 43 "ftlang.l"
 ECHO;
 	YY_BREAK
 #line 870 "lex.yy.c"
@@ -1871,7 +1871,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 42 "ftlang.l"
+#line 43 "ftlang.l"
 
 
 int yywrap(void) {
