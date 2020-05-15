@@ -1,46 +1,232 @@
-%{ 
-
-        /* FIRST SECTION */
-
-    /* To catch syntactical error occurs */
-    void yyerror(char *s);
-
-    /* C declerations */
+%{
     #include <stdio.h>
     #include <stdlib.h>
+    #include <stdarg.h>
+    #include <ctype.h>
+    #include "ftlang.h"
+    #include "y.tab.h"
+
+    nodeType *opr(int oper, int nops, ...);
+    nodeType *id(int i);
+    nodeType *con(int value);
+    void freeNode(nodeType *p);
+    int ex(nodeType *p);
+    int yylex(void);
+    void yyerror(char *s);
+    int sym[26];                    
+%}
+
+%union {
+    int iValue;                 
+    char sIndex;             
+    nodeType *nPtr;             
+};
+
+%token <iValue> INTEGER
+%token <sIndex> VARIABLE
+%token WHILE IF PRINT 
+%token CHAR INT
+%token COMMENT RETURN 
+
+%nonassoc IFX
+%nonassoc ELSE
+
+%left GE LE EQ NE '>' '<'
+%left '+' '-'
+%left '*' '/'
+%nonassoc UMINUS
+
+%type <nPtr> stmt expr stmt_list
+%type <iValue> types
+%type <iValue> INT
+
+%%
+
+program:
+        function                           { exit(0); }
+        | program function_definition 
+        | function_definition
+        |
+        ;
+
+function:
+        function stmt                      { ex($2); freeNode($2); }
+        |
+        ;
+
+function_definition: 
+        types args scope_statements
+        ;
+
+args: 
+        '(' var_def_list ')'
+        ;
+
+var_def_list:
+         var_def ';' var_def
+        |var_def 
+        |
+        ;
+
+var_def:
+        types
+        ;
+
+types: 
+          INT                            
+        ;
+
+scope_statements:
+        '{' statements '}'
+        ;
+
+statements: 
+          statements statement 
+        | statement 
+        |
+        ;
+
+statement:
+      scope_statements
+    | ret_statement ';'
+    | stmt
+    ;
+
+stmt:
+          ';'                            { $$ = opr(';', 2, NULL, NULL); }
+        | expr ';'                       { $$ = $1; }
+        | PRINT expr ';'                 { $$ = opr(PRINT, 1, $2); }
+        | VARIABLE '=' expr ';'          { $$ = opr('=', 2, id($1), $3); }
+        | WHILE '(' expr ')' stmt        { $$ = opr(WHILE, 2, $3, $5); } /* while op, stmt, c style while */ 
+        | IF '(' expr ')' stmt %prec IFX { $$ = opr(IF, 2, $3, $5); }
+        | IF '(' expr ')' stmt ELSE stmt { $$ = opr(IF, 3, $3, $5, $7); }
+        | '{' stmt_list '}'              { $$ = $2; }
+        ;
+
+stmt_list:
+          stmt                          { $$ = $1; }
+        | stmt_list stmt                { $$ = opr(';', 2, $1, $2); }
+        ;
+
+expr:
+          INTEGER                       { $$ = con($1); }
+        | VARIABLE                      { $$ = id($1); }
+        | '-' expr %prec UMINUS         { $$ = opr(UMINUS, 1, $2); }
+        | expr '+' expr                 { $$ = opr('+', 2, $1, $3); }
+        | expr '-' expr                 { $$ = opr('-', 2, $1, $3); }
+        | expr '*' expr                 { $$ = opr('*', 2, $1, $3); }
+        | expr '/' expr                 { $$ = opr('/', 2, $1, $3); }
+        | expr '<' expr                 { $$ = opr('<', 2, $1, $3); }
+        | expr '>' expr                 { $$ = opr('>', 2, $1, $3); }
+        | expr GE expr                  { $$ = opr(GE, 2, $1, $3); }
+        | expr LE expr                  { $$ = opr(LE, 2, $1, $3); }
+        | expr NE expr                  { $$ = opr(NE, 2, $1, $3); }
+        | expr EQ expr                  { $$ = opr(EQ, 2, $1, $3); }
+        | '(' expr ')'                  { $$ = $2; }
+        ;
     
-    /* Primitive symbol table implementation */
-    int symbol[52];  /* 52 different variables. a-z and A-Z  */
+ret_statement:
+        RETURN expr {  } 
+        ;
 
-    /* To check if the symbol is exist in the table */
-    /* Reads a value returns it to client  */
-    int symbolVal(char symbol);
+%%
 
-    /* Gets the value that is passing */
-    /* Update the symbol table with that value  */
-    void updateSymbolVal(char symbol, int val);
-
-    /* Yacc definitions*/
-    %union {int num; char id;}  /* To specify different types that lex analyser return */
-    %start line   /* indicate which of the production that follow in the middle section is to be starting rule */
-    %token print  /* token type is print (token that is expected from lexical analyser and refer to that token type is print)  */
-    %token exit_command  /* lex analyser reference these values in the header file which is generated when yacc file is compiled */
-    %token <num> number  /* <num> to store in the member of num in the union type */
-    %token <id> identifier  /* when any identifier is seen it is going to get returned by the lex analysis in the member variable ID in the union */
-    /* assigning types to the non terminals which appear on the left hand side of the grammar */
-    %type <num> line exp term /* map to the type num(int)   */
-    %type <id> assignment /* map identifier an ID */
+nodeType *con(int value) {
+    nodeType *p;
 
 
-        /* SECOND SECTION */
-    
-    /* description of expected inputs  */  /* corresponding actions in C */
+    if ((p = malloc(sizeof(nodeType))) == NULL)
+        yyerror("out of memory");
 
-    line : assignment ';'           {;}
-         | exit_command ';'         {exit(EXIT_SUCCESS);}
-         | print exp ';'            {printf("Printing %d\n", $2);}
 
-        /* THIRD SECTION */
+    p->type = typeCon;
+    p->con.value = value;
 
-        
+    return p;
+}
+
+nodeType *id(int i) {
+    nodeType *p;
+
+
+    if ((p = malloc(sizeof(nodeType))) == NULL)
+        yyerror("out of memory");
+
+
+    p->type = typeId;
+    p->id.i = i;
+
+    return p;
+}
+
+nodeType *opr(int oper, int nops, ...) {
+    va_list ap;
+    nodeType *p;
+    int i;
+
+
+    if ((p = malloc(sizeof(nodeType) + (nops-1) * sizeof(nodeType *))) == NULL)
+        yyerror("out of memory");
+
+
+    p->type = typeOpr;
+    p->opr.oper = oper;
+    p->opr.nops = nops;
+    va_start(ap, nops);
+    for (i = 0; i < nops; i++)
+        p->opr.op[i] = va_arg(ap, nodeType*);
+    va_end(ap);
+    return p;
+}
+
+void freeNode(nodeType *p) {
+    int i;
+
+    if (!p) return;
+    if (p->type == typeOpr) {
+        for (i = 0; i < p->opr.nops; i++)
+            freeNode(p->opr.op[i]);
+    }
+    free (p);
+}
+
+void yyerror(char *s) {
+    fprintf(stdout, "%s\n", s);
+}
+
+int main(void) {
+    yyparse();
+    return 0;
+}
+
+int ex(nodeType *p) {
+    if (!p) return 0;
+    switch(p->type) {
+    case typeCon:       return p->con.value;
+    case typeId:        return sym[p->id.i];
+    case typeOpr:
+        switch(p->opr.oper) {
+        case WHILE:     while(ex(p->opr.op[0])) ex(p->opr.op[1]); return 0;
+        case IF:        if (ex(p->opr.op[0]))
+                            ex(p->opr.op[1]);
+                        else if (p->opr.nops > 2)
+                            ex(p->opr.op[2]);
+                        return 0;
+        case PRINT:     printf("%d\n", ex(p->opr.op[0])); return 0;
+        case ';':       ex(p->opr.op[0]); return ex(p->opr.op[1]);
+        case '=':       return sym[p->opr.op[0]->id.i] = ex(p->opr.op[1]);
+        case UMINUS:    return -ex(p->opr.op[0]);
+        case '+':       return ex(p->opr.op[0]) + ex(p->opr.op[1]);
+        case '-':       return ex(p->opr.op[0]) - ex(p->opr.op[1]);
+        case '*':       return ex(p->opr.op[0]) * ex(p->opr.op[1]);
+        case '/':       return ex(p->opr.op[0]) / ex(p->opr.op[1]);
+        case '<':       return ex(p->opr.op[0]) < ex(p->opr.op[1]);
+        case '>':       return ex(p->opr.op[0]) > ex(p->opr.op[1]);
+        case GE:        return ex(p->opr.op[0]) >= ex(p->opr.op[1]);
+        case LE:        return ex(p->opr.op[0]) <= ex(p->opr.op[1]);
+        case NE:        return ex(p->opr.op[0]) != ex(p->opr.op[1]);
+        case EQ:        return ex(p->opr.op[0]) == ex(p->opr.op[1]);
+        }
+    }
+    return 0;
 }

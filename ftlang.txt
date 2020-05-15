@@ -1,0 +1,25 @@
+x = 10; 
+while(x>6){ 
+	print(5); 
+	x = x+1; 
+};
+
+a = 4; # a is integer
+b = 2; 
+print(a+b);
+
+
+if(5<1){
+print(1);
+}
+else{
+print(2);
+};
+
+
+x=2;
+y=3;
+if(x<y){
+print (x);
+};
+
