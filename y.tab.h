@@ -96,7 +96,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 20 "ftlang.y" /* yacc.c:1909  */
+#line 21 "ftlang.y" /* yacc.c:1909  */
 
     int iValue;                 
     char sIndex; 

@@ -6,6 +6,7 @@
     #include <ctype.h>
     #include "ftlang.h"
     #include "y.tab.h"
+    #include "errmsg.h"
 
     nodeType *opr(int oper, int nops, ...);
     nodeType *id(int i);
@@ -58,7 +59,6 @@ method:
         | TYPE_INT METHOD '(' TYPE_INT VARIABLE')' stmt  
         ;
 
-
 function:
         function stmt                   {ex($2); freeNode($2);}
         |
@@ -101,7 +101,7 @@ stmt_list:
         ;
 
 expr:
-          INTEGER                       { $$ = con($1); }
+        INTEGER                         { $$ = con($1); }
         | VARIABLE                      { $$ = id($1); }
         | '-' expr %prec UMINUS         { $$ = opr(UMINUS, 1, $2); }
         | expr '+' expr                 { $$ = opr('+', 2, $1, $3); }
@@ -124,8 +124,7 @@ nodeType *con(int value) {
 
 
     if ((p = malloc(sizeof(nodeType))) == NULL)
-        yyerror("out of memory");
-
+        yyerror("Out of memory");
 
     p->type = typeCon;
     p->con.value = value;
@@ -138,8 +137,7 @@ nodeType *id(int i) {
 
 
     if ((p = malloc(sizeof(nodeType))) == NULL)
-        yyerror("out of memory");
-
+        yyerror("Out of memory");
 
     p->type = typeId;
     p->id.i = i;
@@ -152,11 +150,10 @@ nodeType *opr(int oper, int nops, ...) {
     nodeType *p;
     int i;
 
-
     if ((p = malloc(sizeof(nodeType) + (nops-1) * sizeof(nodeType *))) == NULL)
-        yyerror("out of memory");
-
-
+        yyerror("Out of memory");
+     
+        
     p->type = typeOpr;
     p->opr.oper = oper;
     p->opr.nops = nops;
@@ -179,11 +176,14 @@ void freeNode(nodeType *p) {
 }
 
 void yyerror(char *s) {
-    fprintf(stdout, "%s\n", s);
+       struct errmsg message;
+       message.e_mesg = s;
+        errorHandler(&message);
+        //fprintf(stdout, "%s\n", s);
 }
 
 int main(void){
-    yyparse ( );
+    yyparse ();
     return 0;
 }
 
