@@ -52,7 +52,6 @@ program:
         | program function_definition 
         | function_definition
         | MAIN_METHOD '(' ')' scope_statements
-        |
         ;
 
 function:
