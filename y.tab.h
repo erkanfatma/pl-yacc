@@ -47,52 +47,56 @@ extern int yydebug;
   {
     INTEGER = 258,
     VARIABLE = 259,
-    WHILE = 260,
-    IF = 261,
-    PRINT = 262,
-    TYPE_CHAR = 263,
-    TYPE_INT = 264,
-    IDENT = 265,
+    IDENT = 260,
+    WHILE = 261,
+    IF = 262,
+    PRINT = 263,
+    TYPE_CHAR = 264,
+    TYPE_INT = 265,
     COMMENT = 266,
     RETURN = 267,
     STRUCT = 268,
     MAIN_METHOD = 269,
-    IFX = 270,
-    ELSE = 271,
-    GE = 272,
-    LE = 273,
-    EQ = 274,
-    NE = 275,
-    UMINUS = 276
+    METHOD = 270,
+    EXIT = 271,
+    IFX = 272,
+    ELSE = 273,
+    GE = 274,
+    LE = 275,
+    EQ = 276,
+    NE = 277,
+    UMINUS = 278
   };
 #endif
 /* Tokens.  */
 #define INTEGER 258
 #define VARIABLE 259
-#define WHILE 260
-#define IF 261
-#define PRINT 262
-#define TYPE_CHAR 263
-#define TYPE_INT 264
-#define IDENT 265
+#define IDENT 260
+#define WHILE 261
+#define IF 262
+#define PRINT 263
+#define TYPE_CHAR 264
+#define TYPE_INT 265
 #define COMMENT 266
 #define RETURN 267
 #define STRUCT 268
 #define MAIN_METHOD 269
-#define IFX 270
-#define ELSE 271
-#define GE 272
-#define LE 273
-#define EQ 274
-#define NE 275
-#define UMINUS 276
+#define METHOD 270
+#define EXIT 271
+#define IFX 272
+#define ELSE 273
+#define GE 274
+#define LE 275
+#define EQ 276
+#define NE 277
+#define UMINUS 278
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 
 union YYSTYPE
 {
-#line 22 "ftlang.y" /* yacc.c:1909  */
+#line 20 "ftlang.y" /* yacc.c:1909  */
 
     int iValue;                 
     char sIndex; 
@@ -100,7 +104,7 @@ union YYSTYPE
     nodeType *nPtr;     
     struct symtab *symp;        
 
-#line 104 "y.tab.h" /* yacc.c:1909  */
+#line 108 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

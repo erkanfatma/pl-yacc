@@ -18,8 +18,10 @@ void yyerror(char *);
 [-()<>=+*/;{}.]     {return *yytext;}
 
 "main"          return MAIN_METHOD;
+"method"        return METHOD;
 "int"			return TYPE_INT;
-"char"          return TYPE_CHAR;
+"float"          return TYPE_CHAR;
+"exit"          return EXIT;
 
 "return"        return RETURN;
 "struct"        return STRUCT;

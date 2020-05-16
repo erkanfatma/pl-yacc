@@ -7,8 +7,6 @@
     #include "ftlang.h"
     #include "y.tab.h"
 
-    extern FILE *fp;
-
     nodeType *opr(int oper, int nops, ...);
     nodeType *id(int i);
     nodeType *con(int value);
@@ -29,9 +27,10 @@
 
 %token <iValue> INTEGER
 %token <sIndex> VARIABLE
+%token <c> IDENT 
 %token WHILE IF PRINT 
-%token TYPE_CHAR TYPE_INT IDENT
-%token COMMENT RETURN STRUCT MAIN_METHOD
+%token TYPE_CHAR TYPE_INT 
+%token COMMENT RETURN STRUCT MAIN_METHOD METHOD EXIT
 
 %nonassoc IFX
 %nonassoc ELSE
@@ -48,19 +47,25 @@
 %%
 
 program:
-        function                           { exit(0); }
+        function                        {exit(0);}
+        | method                        {exit(0);}
         | program function_definition 
         | function_definition
-        | MAIN_METHOD '(' ')' scope_statements RETURN
         ;
 
+method:
+          MAIN_METHOD '(' ')' stmt                       
+        | TYPE_INT METHOD '(' TYPE_INT VARIABLE')' stmt  
+        ;
+
+
 function:
-        function stmt                      { ex($2); freeNode($2); }
+        function stmt                   {ex($2); freeNode($2);}
         |
         ;
 
 function_definition: 
-        types IDENT args scope_statements RETURN
+        var_def args '{' stmt '}'
         ;
 
 args: 
@@ -74,21 +79,7 @@ var_def_list:
         ;
 
 var_def:
-        types IDENT
-        ;
-        
-types: 
-          TYPE_INT    
-        | TYPE_CHAR                        
-        ;
-
-scope_statements:
-        '{' statements '}'
-        ;
-
-statements: 
-          statements stmt 
-        | stmt 
+        TYPE_INT IDENT
         ;
 
 stmt:
@@ -101,6 +92,7 @@ stmt:
         | IF '(' expr ')' stmt %prec IFX { $$ = opr(IF, 2, $3, $5); }
         | IF '(' expr ')' stmt ELSE stmt { $$ = opr(IF, 3, $3, $5, $7); }
         | '{' stmt_list '}'              { $$ = $2; }
+        | EXIT							 {exit(EXIT_SUCCESS);}
         ;
 
 stmt_list:
@@ -191,7 +183,7 @@ void yyerror(char *s) {
 }
 
 int main(void){
-    yyparse();
+    yyparse ( );
     return 0;
 }
 
