@@ -56,6 +56,7 @@ program:
 
 function:
         function stmt                      { ex($2); freeNode($2); }
+        |
         ;
 
 function_definition: 
@@ -67,7 +68,7 @@ args:
         ;
 
 var_def_list:
-         var_def ';' var_def
+         var_def ',' var_def
         |var_def 
         |
         ;
