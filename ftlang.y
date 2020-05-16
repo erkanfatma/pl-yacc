@@ -7,6 +7,8 @@
     #include "ftlang.h"
     #include "y.tab.h"
 
+    extern FILE *fp;
+
     nodeType *opr(int oper, int nops, ...);
     nodeType *id(int i);
     nodeType *con(int value);
@@ -29,7 +31,7 @@
 %token <sIndex> VARIABLE
 %token WHILE IF PRINT 
 %token TYPE_CHAR TYPE_INT IDENT
-%token COMMENT RETURN STRUCT
+%token COMMENT RETURN STRUCT MAIN_METHOD
 
 %nonassoc IFX
 %nonassoc ELSE
@@ -49,6 +51,7 @@ program:
         function                           { exit(0); }
         | program function_definition 
         | function_definition
+        | MAIN_METHOD '(' ')' scope_statements
         |
         ;
 
@@ -87,11 +90,9 @@ scope_statements:
 statements: 
           statements statement 
         | statement 
-        |
         ;
 
 statement:
-      scope_statements
     | ret_statement ';'
     | stmt
     ;
@@ -101,7 +102,7 @@ stmt:
         | expr ';'                       { $$ = $1; }
         | PRINT expr ';'                 { $$ = opr(PRINT, 1, $2); }
         | VARIABLE '=' expr ';'          { $$ = opr('=', 2, id($1), $3); }
-        | WHILE '(' expr ')' stmt        { $$ = opr(WHILE, 2, $3, $5); } /* while op, stmt, c style while */ 
+        | WHILE '(' expr ')' stmt        { $$ = opr(WHILE, 2, $3, $5); } 
         | IF '(' expr ')' stmt %prec IFX { $$ = opr(IF, 2, $3, $5); }
         | IF '(' expr ')' stmt ELSE stmt { $$ = opr(IF, 3, $3, $5, $7); }
         | '{' stmt_list '}'              { $$ = $2; }
@@ -198,7 +199,7 @@ void yyerror(char *s) {
     fprintf(stdout, "%s\n", s);
 }
 
-int main(void) {
+int main(){
     yyparse();
     return 0;
 }

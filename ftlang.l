@@ -17,6 +17,7 @@ void yyerror(char *);
 
 [-()<>=+*/;{}.]     {return *yytext;}
 
+"main"          return MAIN_METHOD;
 "int"			return TYPE_INT;
 "char"          return TYPE_CHAR;
 

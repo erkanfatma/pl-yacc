@@ -56,13 +56,14 @@ extern int yydebug;
     COMMENT = 266,
     RETURN = 267,
     STRUCT = 268,
-    IFX = 269,
-    ELSE = 270,
-    GE = 271,
-    LE = 272,
-    EQ = 273,
-    NE = 274,
-    UMINUS = 275
+    MAIN_METHOD = 269,
+    IFX = 270,
+    ELSE = 271,
+    GE = 272,
+    LE = 273,
+    EQ = 274,
+    NE = 275,
+    UMINUS = 276
   };
 #endif
 /* Tokens.  */
@@ -77,20 +78,21 @@ extern int yydebug;
 #define COMMENT 266
 #define RETURN 267
 #define STRUCT 268
-#define IFX 269
-#define ELSE 270
-#define GE 271
-#define LE 272
-#define EQ 273
-#define NE 274
-#define UMINUS 275
+#define MAIN_METHOD 269
+#define IFX 270
+#define ELSE 271
+#define GE 272
+#define LE 273
+#define EQ 274
+#define NE 275
+#define UMINUS 276
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 
 union YYSTYPE
 {
-#line 20 "ftlang.y" /* yacc.c:1909  */
+#line 22 "ftlang.y" /* yacc.c:1909  */
 
     int iValue;                 
     char sIndex; 
@@ -98,7 +100,7 @@ union YYSTYPE
     nodeType *nPtr;     
     struct symtab *symp;        
 
-#line 102 "y.tab.h" /* yacc.c:1909  */
+#line 104 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

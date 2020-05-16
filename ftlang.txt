@@ -17,9 +17,10 @@ print(2);
 };
 
 
-x=2;
-y=3;
-if(x<y){
-print (x);
-};
+t=9;
+k=11;
+z=9;
+if(a==z){
+print(t);
+}
 
