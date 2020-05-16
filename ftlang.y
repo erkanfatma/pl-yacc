@@ -41,7 +41,7 @@
 %left '*' '/'
 %nonassoc UMINUS
 
-%type <nPtr> stmt expr stmt_list
+%type <nPtr> stmt expr stmt_list 
 %type <iValue> TYPE_INT
 %type <sIndex> TYPE_CHAR
 
@@ -51,7 +51,7 @@ program:
         function                           { exit(0); }
         | program function_definition 
         | function_definition
-        | MAIN_METHOD '(' ')' scope_statements
+        | MAIN_METHOD '(' ')' scope_statements RETURN
         ;
 
 function:
@@ -60,7 +60,7 @@ function:
         ;
 
 function_definition: 
-        types IDENT args scope_statements
+        types IDENT args scope_statements RETURN
         ;
 
 args: 
@@ -87,19 +87,15 @@ scope_statements:
         ;
 
 statements: 
-          statements statement 
-        | statement 
+          statements stmt 
+        | stmt 
         ;
-
-statement:
-    | ret_statement ';'
-    | stmt
-    ;
 
 stmt:
           ';'                            { $$ = opr(';', 2, NULL, NULL); }
         | expr ';'                       { $$ = $1; }
         | PRINT expr ';'                 { $$ = opr(PRINT, 1, $2); }
+        | RETURN expr                    { $$ = opr(RETURN, 1, $2); }
         | VARIABLE '=' expr ';'          { $$ = opr('=', 2, id($1), $3); }
         | WHILE '(' expr ')' stmt        { $$ = opr(WHILE, 2, $3, $5); } 
         | IF '(' expr ')' stmt %prec IFX { $$ = opr(IF, 2, $3, $5); }
@@ -127,10 +123,6 @@ expr:
         | expr NE expr                  { $$ = opr(NE, 2, $1, $3); }
         | expr EQ expr                  { $$ = opr(EQ, 2, $1, $3); }
         | '(' expr ')'                  { $$ = $2; }
-        ;
-    
-ret_statement:
-        RETURN expr {  } 
         ;
 
 %%
@@ -198,7 +190,7 @@ void yyerror(char *s) {
     fprintf(stdout, "%s\n", s);
 }
 
-int main(){
+int main(void){
     yyparse();
     return 0;
 }
@@ -217,6 +209,7 @@ int ex(nodeType *p) {
                             ex(p->opr.op[2]);
                         return 0;
         case PRINT:     printf("%d\n", ex(p->opr.op[0])); return 0;
+        case RETURN:    printf("%d\n", ex(p->opr.op[0])); return 0; 
         case ';':       ex(p->opr.op[0]); return ex(p->opr.op[1]);
         case '=':       return sym[p->opr.op[0]->id.i] = ex(p->opr.op[1]);
         case UMINUS:    return -ex(p->opr.op[0]);

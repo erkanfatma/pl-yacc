@@ -23,3 +23,13 @@ if(x<y){
 print (x);
 };
 
+main(){
+a=2;
+b=3;
+if(a+b <6){
+print(a+b);
+}
+return a+b;
+};
+/*syntax error*/
+
