@@ -56,7 +56,6 @@ program:
 
 function:
         function stmt                      { ex($2); freeNode($2); }
-        |
         ;
 
 function_definition: 
