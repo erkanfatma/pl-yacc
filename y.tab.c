@@ -494,9 +494,9 @@ static const yytype_uint8 yyrline[] =
 {
        0,    51,    51,    52,    53,    54,    58,    59,    64,    65,
       69,    73,    77,    78,    79,    83,    87,    88,    89,    90,
-      91,    92,    93,    94,    96,    97,    98,    99,   100,   101,
-     105,   106,   110,   111,   112,   113,   114,   115,   116,   117,
-     118,   119,   120,   121,   122,   123
+      91,    92,    93,    94,    95,    96,    97,    98,    99,   100,
+     104,   105,   109,   110,   111,   112,   113,   114,   115,   116,
+     117,   118,   119,   120,   121,   122
 };
 #endif
 
@@ -1429,133 +1429,133 @@ yyreduce:
     break;
 
   case 24:
-#line 96 "ftlang.y" /* yacc.c:1646  */
+#line 95 "ftlang.y" /* yacc.c:1646  */
     { (yyval.nPtr) = (yyvsp[-1].nPtr); }
 #line 1435 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 97 "ftlang.y" /* yacc.c:1646  */
+#line 96 "ftlang.y" /* yacc.c:1646  */
     {yyerror("return needs an axpression.");}
 #line 1441 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 98 "ftlang.y" /* yacc.c:1646  */
+#line 97 "ftlang.y" /* yacc.c:1646  */
     {yyerror("Parenthesis missing."); }
 #line 1447 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 99 "ftlang.y" /* yacc.c:1646  */
+#line 98 "ftlang.y" /* yacc.c:1646  */
     {yyerror("Paranthesis missing."); }
 #line 1453 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 100 "ftlang.y" /* yacc.c:1646  */
+#line 99 "ftlang.y" /* yacc.c:1646  */
     {yyerror("Paranthesis missing.");}
 #line 1459 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 101 "ftlang.y" /* yacc.c:1646  */
+#line 100 "ftlang.y" /* yacc.c:1646  */
     {exit(EXIT_SUCCESS);}
 #line 1465 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 105 "ftlang.y" /* yacc.c:1646  */
+#line 104 "ftlang.y" /* yacc.c:1646  */
     { (yyval.nPtr) = (yyvsp[0].nPtr); }
 #line 1471 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 106 "ftlang.y" /* yacc.c:1646  */
+#line 105 "ftlang.y" /* yacc.c:1646  */
     { (yyval.nPtr) = opr(';', 2, (yyvsp[-1].nPtr), (yyvsp[0].nPtr)); }
 #line 1477 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 110 "ftlang.y" /* yacc.c:1646  */
+#line 109 "ftlang.y" /* yacc.c:1646  */
     { (yyval.nPtr) = con((yyvsp[0].iValue)); }
 #line 1483 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 111 "ftlang.y" /* yacc.c:1646  */
+#line 110 "ftlang.y" /* yacc.c:1646  */
     { (yyval.nPtr) = id((yyvsp[0].sIndex)); }
 #line 1489 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 112 "ftlang.y" /* yacc.c:1646  */
+#line 111 "ftlang.y" /* yacc.c:1646  */
     { (yyval.nPtr) = opr(UMINUS, 1, (yyvsp[0].nPtr)); }
 #line 1495 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 113 "ftlang.y" /* yacc.c:1646  */
+#line 112 "ftlang.y" /* yacc.c:1646  */
     { (yyval.nPtr) = opr('+', 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
 #line 1501 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
-#line 114 "ftlang.y" /* yacc.c:1646  */
+#line 113 "ftlang.y" /* yacc.c:1646  */
     { (yyval.nPtr) = opr('-', 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
 #line 1507 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 115 "ftlang.y" /* yacc.c:1646  */
+#line 114 "ftlang.y" /* yacc.c:1646  */
     { (yyval.nPtr) = opr('*', 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
 #line 1513 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 38:
-#line 116 "ftlang.y" /* yacc.c:1646  */
+#line 115 "ftlang.y" /* yacc.c:1646  */
     { (yyval.nPtr) = opr('/', 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
 #line 1519 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 39:
-#line 117 "ftlang.y" /* yacc.c:1646  */
+#line 116 "ftlang.y" /* yacc.c:1646  */
     { (yyval.nPtr) = opr('<', 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
 #line 1525 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 40:
-#line 118 "ftlang.y" /* yacc.c:1646  */
+#line 117 "ftlang.y" /* yacc.c:1646  */
     { (yyval.nPtr) = opr('>', 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
 #line 1531 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 41:
-#line 119 "ftlang.y" /* yacc.c:1646  */
+#line 118 "ftlang.y" /* yacc.c:1646  */
     { (yyval.nPtr) = opr(GE, 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
 #line 1537 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 42:
-#line 120 "ftlang.y" /* yacc.c:1646  */
+#line 119 "ftlang.y" /* yacc.c:1646  */
     { (yyval.nPtr) = opr(LE, 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
 #line 1543 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 43:
-#line 121 "ftlang.y" /* yacc.c:1646  */
+#line 120 "ftlang.y" /* yacc.c:1646  */
     { (yyval.nPtr) = opr(NE, 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
 #line 1549 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 44:
-#line 122 "ftlang.y" /* yacc.c:1646  */
+#line 121 "ftlang.y" /* yacc.c:1646  */
     { (yyval.nPtr) = opr(EQ, 2, (yyvsp[-2].nPtr), (yyvsp[0].nPtr)); }
 #line 1555 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 45:
-#line 123 "ftlang.y" /* yacc.c:1646  */
+#line 122 "ftlang.y" /* yacc.c:1646  */
     { (yyval.nPtr) = (yyvsp[-1].nPtr); }
 #line 1561 "y.tab.c" /* yacc.c:1646  */
     break;
@@ -1789,7 +1789,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 126 "ftlang.y" /* yacc.c:1906  */
+#line 125 "ftlang.y" /* yacc.c:1906  */
 
 
 nodeType *con(int value) {
