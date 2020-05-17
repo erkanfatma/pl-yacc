@@ -57,6 +57,7 @@ program:
 method:
           MAIN_METHOD '(' ')' stmt                       
         | TYPE_INT METHOD '(' TYPE_INT VARIABLE')' stmt  
+        
         ;
 
 function:
@@ -75,7 +76,7 @@ args:
 var_def_list:
          var_def ',' var_def
         |var_def 
-        |
+        | var_def var_def  {yyerror("Multiple variable definitions must contain a comma between them.");}
         ;
 
 var_def:
@@ -86,12 +87,16 @@ stmt:
           ';'                            { $$ = opr(';', 2, NULL, NULL); }
         | expr ';'                       { $$ = $1; }
         | PRINT expr ';'                 { $$ = opr(PRINT, 1, $2); }
-        | RETURN expr                    { $$ = opr(RETURN, 1, $2); }
+        | RETURN expr                    { $$ = opr(RETURN, 1, $2); }        
         | VARIABLE '=' expr ';'          { $$ = opr('=', 2, id($1), $3); }
         | WHILE '(' expr ')' stmt        { $$ = opr(WHILE, 2, $3, $5); } 
         | IF '(' expr ')' stmt %prec IFX { $$ = opr(IF, 2, $3, $5); }
         | IF '(' expr ')' stmt ELSE stmt { $$ = opr(IF, 3, $3, $5, $7); }
         | '{' stmt_list '}'              { $$ = $2; }
+        | RETURN                         {yyerror("return needs an axpression.");}
+        | WHILE expr stmt                {yyerror("Parenthesis missing."); } 
+        | IF expr stmt %prec IFX         {yyerror("Paranthesis missing."); }
+        | IF expr stmt ELSE stmt         {yyerror("Paranthesis missing.");}
         | EXIT							 {exit(EXIT_SUCCESS);}
         ;
 

@@ -7,10 +7,11 @@ struct errmsg{
 };
 
 // errtab[] = {
-//     0, "invalid decleration",
-//     1, "end of file expected",
-//     2, "invalid decleration",
-//     12, "missing semicolon",
+//     0, "Invalid decleration",
+//     1, "Invalid decleration",
+//     2, "end of file expected",
+//     3, "invalid decleration",
+//     4, "missing semicolon",
 // };
 
 void errorHandler(struct errmsg * message);
