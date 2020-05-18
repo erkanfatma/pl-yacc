@@ -20,7 +20,7 @@ void yyerror(char *);
 "main"          return MAIN_METHOD;
 "method"        return METHOD;
 "int"			return TYPE_INT;
-"float"          return TYPE_CHAR;
+"char"          return TYPE_CHAR;
 "exit"          return EXIT;
 
 "return"        return RETURN;
